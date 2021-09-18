@@ -13,6 +13,8 @@ project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
 
+add_subdirectory("lvgl")
+
 add_executable(${APP_TARGET}
     main.cpp
 )
