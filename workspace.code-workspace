@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "lvgl"
+		},
+		{
+			"path": "mbed-os"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

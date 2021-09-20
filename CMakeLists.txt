@@ -13,13 +13,14 @@ project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
 
-add_subdirectory("lvgl")
+add_subdirectory(lvgl)
 
 add_executable(${APP_TARGET}
     main.cpp
 )
 
 target_link_libraries(${APP_TARGET} mbed-os)
+target_link_libraries(${APP_TARGET} lvgl)
 
 mbed_set_post_build(${APP_TARGET})
 
