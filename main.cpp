@@ -5,9 +5,9 @@
 
 #include "mbed.h"
 
-
 int main()
 {
-    printf("Hello, Mbed!\n");
+    printf("Hello World, Mbed!\n");
+
     return 0;
 }

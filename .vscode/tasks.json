@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "presentation": {
+        "clear": false,
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false
+    },
+    "tasks": [
+        {
+            "label": "configure NUCLEO_F103RB",
+            "command": "mbed-tools",
+            "args": [
+                "configure",
+                "-m",
+                "NUCLEO_F103RB",
+                "-t",
+                "GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build NUCLEO_F103RB",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/NUCLEO_F103RB/develop/GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
