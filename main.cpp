@@ -4,10 +4,13 @@
  */
 
 #include "mbed.h"
+#include "lvgl/lvgl.h"
 
 int main()
 {
     printf("Hello World, Mbed!\n");
+
+    lv_init();
 
     return 0;
 }
