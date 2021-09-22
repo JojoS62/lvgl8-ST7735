@@ -6,9 +6,10 @@
         "clear": false,
         "echo": true,
         "reveal": "always",
-        "focus": false,
+        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false
+        "showReuseMessage": false,
+        "close": false
     },
     "tasks": [
         {
@@ -27,10 +28,41 @@
         },
         {
             "label": "build NUCLEO_F103RB",
+            "type": "process",
             "command": "cmake",
             "args": [
                 "--build",
                 "cmake_build/NUCLEO_F103RB/develop/GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "configure BLUEPILL_F103C8",
+            "command": "mbed-tools",
+            "args": [
+                "configure",
+                "-m",
+                "BLUEPILL_F103C8",
+                "-t",
+                "GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build BLUEPILL_F103C8",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/BLUEPILL_F103C8/develop/GCC_ARM"
             ],
             "problemMatcher": [
                 "$gcc"

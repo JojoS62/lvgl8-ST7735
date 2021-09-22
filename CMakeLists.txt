@@ -11,6 +11,7 @@ include(${MBED_PATH}/tools/cmake/app.cmake)
 
 project(${APP_TARGET})
 
+add_subdirectory(stm32customtargets)
 add_subdirectory(${MBED_PATH})
 
 add_subdirectory(lvgl)
