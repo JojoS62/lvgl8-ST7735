@@ -443,12 +443,12 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_SWITCH    1
 
-#define LV_USE_TEXTAREA   1     /*Requires: lv_label*/
+#define LV_USE_TEXTAREA   0     /*Requires: lv_label*/
 #if LV_USE_TEXTAREA != 0
 #  define LV_TEXTAREA_DEF_PWD_SHOW_TIME     1500    /*ms*/
 #endif
 
-#define LV_USE_TABLE  1
+#define LV_USE_TABLE  0
 
 /*==================
  * EXTRA COMPONENTS
@@ -457,7 +457,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 /*-----------
  * Widgets
  *----------*/
-#define LV_USE_CALENDAR     1
+#define LV_USE_CALENDAR     0
 #if LV_USE_CALENDAR
 # define LV_CALENDAR_WEEK_STARTS_MONDAY 0
 # if LV_CALENDAR_WEEK_STARTS_MONDAY
@@ -471,33 +471,33 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 # define LV_USE_CALENDAR_HEADER_DROPDOWN    1
 #endif  /*LV_USE_CALENDAR*/
 
-#define LV_USE_CHART        1
+#define LV_USE_CHART        0
 
-#define LV_USE_COLORWHEEL   1
+#define LV_USE_COLORWHEEL   0
 
-#define LV_USE_IMGBTN       1
+#define LV_USE_IMGBTN       0
 
-#define LV_USE_KEYBOARD     1
+#define LV_USE_KEYBOARD     0
 
 #define LV_USE_LED          1
 
-#define LV_USE_LIST         1
+#define LV_USE_LIST         0
 
-#define LV_USE_METER        1
+#define LV_USE_METER        0
 
-#define LV_USE_MSGBOX       1
+#define LV_USE_MSGBOX       0
 
-#define LV_USE_SPINBOX      1
+#define LV_USE_SPINBOX      0
 
-#define LV_USE_SPINNER      1
+#define LV_USE_SPINNER      0
 
-#define LV_USE_TABVIEW      1
+#define LV_USE_TABVIEW      0
 
-#define LV_USE_TILEVIEW     1
+#define LV_USE_TILEVIEW     0
 
-#define LV_USE_WIN          1
+#define LV_USE_WIN          0
 
-#define LV_USE_SPAN         1
+#define LV_USE_SPAN         0
 #if LV_USE_SPAN
 /*A line text can contain maximum num of span descriptor */
 #  define LV_SPAN_SNIPPET_STACK_SIZE   64
@@ -515,7 +515,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 # define LV_THEME_DEFAULT_DARK     0
 
 /*1: Enable grow on press*/
-# define LV_THEME_DEFAULT_GROW              1
+# define LV_THEME_DEFAULT_GROW              0
 
 /*Default transition time in [ms]*/
 # define LV_THEME_DEFAULT_TRANSITON_TIME    80
@@ -532,10 +532,10 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
  *----------*/
 
 /*A layout similar to Flexbox in CSS.*/
-#define LV_USE_FLEX     1
+#define LV_USE_FLEX     0
 
 /*A layout similar to Grid in CSS.*/
-#define LV_USE_GRID     1
+#define LV_USE_GRID     0
 
 /*==================
 * EXAMPLES
