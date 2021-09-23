@@ -37,10 +37,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "configure BLUEPILL_F103C8",
@@ -71,6 +68,38 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "compile NUCLEO_F091RC",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "NUCLEO_F091RC",
+                "-t",
+                "GCC_ARM",
+                "-b",
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "compile NUCLEO_F103RB",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "NUCLEO_F103RB",
+                "-t",
+                "GCC_ARM",
+                "-b",
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
-    ]
+   ]
 }
