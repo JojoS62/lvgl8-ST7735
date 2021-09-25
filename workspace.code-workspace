@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "."
+		},
+		{
+			"path": "lvglDriver"
 		}
 	],
 	"settings": {}
