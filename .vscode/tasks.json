@@ -20,7 +20,9 @@
                 "-m",
                 "NUCLEO_F103RB",
                 "-t",
-                "GCC_ARM"
+                "GCC_ARM",
+                "-b",
+                "release"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -32,12 +34,15 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "cmake_build/NUCLEO_F103RB/develop/GCC_ARM"
+                "cmake_build/NUCLEO_F103RB/release/GCC_ARM"
             ],
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build"
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "configure BLUEPILL_F103C8",
@@ -59,15 +64,12 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "cmake_build/BLUEPILL_F103C8/develop/GCC_ARM"
+                "cmake_build/BLUEPILL_F103C8/release/GCC_ARM"
             ],
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "compile NUCLEO_F091RC",
@@ -101,5 +103,5 @@
                 "$gcc"
             ]
         }
-   ]
+    ]
 }

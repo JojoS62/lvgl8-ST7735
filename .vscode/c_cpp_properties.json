@@ -11,9 +11,9 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "c:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2020-q4-major\\bin\\arm-none-eabi-gcc.exe",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang++.exe",
             "configurationProvider": "ms-vscode.cmake-tools",
-            "intelliSenseMode": "windows-gcc-arm"
+            "intelliSenseMode": "windows-clang-arm"
         }
     ],
     "version": 4

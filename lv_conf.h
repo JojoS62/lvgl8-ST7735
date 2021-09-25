@@ -97,7 +97,7 @@
 
 /*Enable complex draw engine.
  *Required to draw shadow, gradient, rounded corners, circles, arc, skew lines, image transformations or any masks*/
-#define LV_DRAW_COMPLEX 1
+#define LV_DRAW_COMPLEX 0
 #if LV_DRAW_COMPLEX != 0
 
 /*Allow buffering some shadow calculation.
@@ -251,7 +251,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #endif /*LV_ENABLE_GC*/
 
 /*1: Enable API to take snapshot for object*/
-#define LV_USE_SNAPSHOT         1
+#define LV_USE_SNAPSHOT         0
 
 /*=====================
  *  COMPILER SETTINGS
@@ -313,7 +313,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #define LV_FONT_MONTSERRAT_26    0
 #define LV_FONT_MONTSERRAT_28    0
 #define LV_FONT_MONTSERRAT_30    0
-#define LV_FONT_MONTSERRAT_32    0
+#define LV_FONT_MONTSERRAT_32    1
 #define LV_FONT_MONTSERRAT_34    0
 #define LV_FONT_MONTSERRAT_36    0
 #define LV_FONT_MONTSERRAT_38    0
@@ -408,9 +408,9 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 /*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html*/
 
-#define LV_USE_ARC          1
+#define LV_USE_ARC          0
 
-#define LV_USE_ANIMIMG	    1
+#define LV_USE_ANIMIMG	    0
 
 #define LV_USE_BAR          1
 
@@ -418,13 +418,13 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_BTNMATRIX    1
 
-#define LV_USE_CANVAS       1
+#define LV_USE_CANVAS       0
 
 #define LV_USE_CHECKBOX     1
 
 #define LV_USE_DROPDOWN     1   /*Requires: lv_label*/
 
-#define LV_USE_IMG          1   /*Requires: lv_label*/
+#define LV_USE_IMG          0   /*Requires: lv_label*/
 
 #define LV_USE_LABEL        1
 #if LV_USE_LABEL
@@ -434,7 +434,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_LINE         1
 
-#define LV_USE_ROLLER       1   /*Requires: lv_label*/
+#define LV_USE_ROLLER       0   /*Requires: lv_label*/
 #if LV_USE_ROLLER
 #  define LV_ROLLER_INF_PAGES       7   /*Number of extra "pages" when the roller is infinite*/
 #endif
@@ -525,7 +525,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
  #define LV_USE_THEME_BASIC    1
 
 /*A theme designed for monochrome displays*/
-#define LV_USE_THEME_MONO       1
+#define LV_USE_THEME_MONO       0
 
 /*-----------
  * Layouts

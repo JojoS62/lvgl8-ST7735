@@ -13,7 +13,10 @@ project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
 add_subdirectory(stm32customtargets)
+
 add_subdirectory(lvgl)
+target_include_directories(lvgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_subdirectory(lvglDriver)
 
 add_executable(${APP_TARGET}

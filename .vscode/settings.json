@@ -1,4 +1,13 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "cmake.configureOnOpen": false
+    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/NUCLEO_F103RB/release/GCC_ARM",
+    "cmake.configureOnOpen": true,
+	"clangd.checkUpdates": true,
+	"clangd.arguments": [
+		"--log=verbose",
+		"--completion-style=detailed",
+		"--clang-tidy",
+		"--header-insertion=never",
+		"--suggest-missing-includes"
+	]
 }
