@@ -7,10 +7,10 @@
 			"path": "mbed-os"
 		},
 		{
-			"path": "."
+			"path": "lvglDriver"
 		},
 		{
-			"path": "lvglDriver"
+			"path": "."
 		}
 	],
 	"settings": {}
