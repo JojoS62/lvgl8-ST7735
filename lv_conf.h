@@ -97,7 +97,7 @@
 
 /*Enable complex draw engine.
  *Required to draw shadow, gradient, rounded corners, circles, arc, skew lines, image transformations or any masks*/
-#define LV_DRAW_COMPLEX 0
+#define LV_DRAW_COMPLEX 1
 #if LV_DRAW_COMPLEX != 0
 
 /*Allow buffering some shadow calculation.
@@ -183,11 +183,11 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
  *LV_LOG_LEVEL_ERROR       Only critical issue, when the system may fail
  *LV_LOG_LEVEL_USER        Only logs added by the user
  *LV_LOG_LEVEL_NONE        Do not log anything*/
-#  define LV_LOG_LEVEL    LV_LOG_LEVEL_WARN
+#  define LV_LOG_LEVEL    LV_LOG_LEVEL_INFO
 
 /*1: Print the log with 'printf';
  *0: User need to register a callback with `lv_log_register_print_cb()`*/
-#  define LV_LOG_PRINTF   0
+#  define LV_LOG_PRINTF   1
 
 /*Enable/disable LV_LOG_TRACE in modules that produces a huge number of logs*/
 #  define LV_LOG_TRACE_MEM            1
@@ -313,7 +313,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #define LV_FONT_MONTSERRAT_26    0
 #define LV_FONT_MONTSERRAT_28    0
 #define LV_FONT_MONTSERRAT_30    0
-#define LV_FONT_MONTSERRAT_32    1
+#define LV_FONT_MONTSERRAT_32    0
 #define LV_FONT_MONTSERRAT_34    0
 #define LV_FONT_MONTSERRAT_36    0
 #define LV_FONT_MONTSERRAT_38    0
@@ -408,7 +408,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 /*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html*/
 
-#define LV_USE_ARC          0
+#define LV_USE_ARC          1
 
 #define LV_USE_ANIMIMG	    0
 
@@ -418,13 +418,13 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_BTNMATRIX    1
 
-#define LV_USE_CANVAS       0
+#define LV_USE_CANVAS       1
 
 #define LV_USE_CHECKBOX     1
 
 #define LV_USE_DROPDOWN     1   /*Requires: lv_label*/
 
-#define LV_USE_IMG          0   /*Requires: lv_label*/
+#define LV_USE_IMG          1   /*Requires: lv_label*/
 
 #define LV_USE_LABEL        1
 #if LV_USE_LABEL
@@ -483,7 +483,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_LIST         0
 
-#define LV_USE_METER        0
+#define LV_USE_METER        1
 
 #define LV_USE_MSGBOX       0
 
@@ -495,7 +495,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 #define LV_USE_TILEVIEW     0
 
-#define LV_USE_WIN          0
+#define LV_USE_WIN          1
 
 #define LV_USE_SPAN         0
 #if LV_USE_SPAN
@@ -532,10 +532,10 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
  *----------*/
 
 /*A layout similar to Flexbox in CSS.*/
-#define LV_USE_FLEX     0
+#define LV_USE_FLEX     1
 
 /*A layout similar to Grid in CSS.*/
-#define LV_USE_GRID     0
+#define LV_USE_GRID     1
 
 /*==================
 * EXAMPLES
