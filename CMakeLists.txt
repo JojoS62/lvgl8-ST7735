@@ -1,7 +1,7 @@
 # Copyright (c) 2021 ARM Limited. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-cmake_minimum_required(VERSION 3.19.0)
+cmake_minimum_required(VERSION 3.21.0)
 
 set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
@@ -12,10 +12,10 @@ include(${MBED_PATH}/tools/cmake/app.cmake)
 project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
-add_subdirectory(stm32customtargets)
+add_subdirectory(custom_targets)
 
 add_subdirectory(lvgl)
-target_include_directories(lvgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+# target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(lvglDriver)
 
