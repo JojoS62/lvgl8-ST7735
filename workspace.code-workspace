@@ -10,8 +10,19 @@
 			"path": "lvglDriver"
 		},
 		{
+			"name": "custom_targets",
+			"path": "custom_targets"
+		},
+		{
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.cpp": "cpp",
+			"*.htm": "html",
+			"*.html": "html",
+			"new": "cpp"
+		}
+	}
 }
