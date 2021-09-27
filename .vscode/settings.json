@@ -1,9 +1,10 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/NUCLEO_F103RB/release/GCC_ARM",
+    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/STM32F407VE_BLACK/develop/GCC_ARM",
     "cmake.configureOnOpen": true,
 	"clangd.checkUpdates": true,
 	"clangd.arguments": [
+		"--query-driver=C:/Program Files/LLVM/bin/clang.exe",
 		"--log=verbose",
 		"--completion-style=detailed",
 		"--clang-tidy",

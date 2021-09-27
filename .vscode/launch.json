@@ -1,0 +1,147 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf",
+            "name": "debug JLink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf",
+            "name": "debug  pyOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "pyocd"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Debug/${workspaceFolderBasename}.elf",
+            "name": "debug stutil",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stutil",
+            "v1": false,
+            "showDevDebugOutput": true
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Release/${workspaceFolderBasename}.elf",
+            "name": "release stutil",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stutil",
+            "v1": false,
+            "showDevDebugOutput": true
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Debug/${workspaceFolderBasename}.elf",
+            "name": "debug stlink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stlink",
+            "v1": false,
+            "showDevDebugOutput": true
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf",
+            "name": "debug OpenOCD F4 STLink-2.0",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "../scripts/interface/stlink-v2.cfg",
+                "../scripts/target/stm32f4x.cfg"
+            ]
+        },
+        {
+            "name": "debug OpenOCD F4 STLink-2.1",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf",
+            "configFiles": [
+                "../scripts/interface/stlink-v2-1.cfg",
+                "../scripts/target/stm32f4x_stlink.cfg"
+            ]
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "debug COM12",
+            "BMPGDBSerialPort": "//./COM12",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "device": "STM32F407VE",
+            "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "release COM12",
+            "BMPGDBSerialPort": "//./COM12",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "device": "STM32F407VE",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Release/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "develop COM12",
+            "BMPGDBSerialPort": "//./COM12",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "device": "STM32F407VE",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Develop/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "release COM5",
+            "BMPGDBSerialPort": "//./COM5",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Release/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "develop COM5",
+            "BMPGDBSerialPort": "//./COM5",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Develop/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "debug COM5",
+            "BMPGDBSerialPort": "//./COM5",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "../../BUILD/${workspaceFolderBasename}/Debug/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "develop COM4",
+            "BMPGDBSerialPort": "//./COM4",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "cmake_build/STM32F407VE_BLACK/develop/GCC_ARM/${workspaceFolderBasename}.elf"
+        }
+    ]
+}

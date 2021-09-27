@@ -39,10 +39,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "configure BLUEPILL_F103C8",
@@ -85,7 +82,8 @@
             ],
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "group": "build"
         },
         {
             "label": "compile NUCLEO_F103RB",
@@ -102,6 +100,46 @@
             "problemMatcher": [
                 "$gcc"
             ]
+        },
+        {
+            "label": "compile BLUEPILL_F103C8",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "BLUEPILL_F103C8",
+                "-t",
+                "GCC_ARM",
+                "--custom-targets-json",
+                "stm32customtargets/custom_targets.json",
+                "-b",
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "compile STM32F407VE_BLACK",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "STM32F407VE_BLACK",
+                "-t",
+                "GCC_ARM",
+                "--custom-targets-json",
+                "custom_targets/custom_targets.json",
+                "-b",
+                "develop"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
