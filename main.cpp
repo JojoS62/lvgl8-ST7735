@@ -20,7 +20,7 @@ void btn_event_cb(lv_event_t * e)
 void create_lv_screen() 
 {
     lv_obj_t * btn = lv_btn_create(lv_scr_act());                   /*Add a button to the current screen*/
-    lv_obj_set_pos(btn, 80, 95);                                    /*Set its position*/
+    lv_obj_set_pos(btn, 70, 95);                                    /*Set its position*/
     lv_obj_set_size(btn, 100, 50);                                  /*Set its size*/
     lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_CLICKED, NULL); /*Assign a callback to the button*/
 
@@ -36,12 +36,15 @@ void fnLvTicker()
 }
 
 
+
 int main()
 {
-    printf("Hello World, Mbed!\n");
+    printf("Hello from "  MBED_STRINGIFY(TARGET_NAME) "\n");
+    printf("Mbed OS version: %d.%d.%d\n\n", MBED_MAJOR_VERSION, MBED_MINOR_VERSION, MBED_PATCH_VERSION);
+
+    spiDisplay.frequency(40e6);
 
     lv_init();
-    spiDisplay.frequency(40e6);
     [[maybe_unused]] LVGLDispGC9A01* lvglDisplayGC9A01_1 = new LVGLDispGC9A01(spiDisplay, PB_9, PB_6, PB_7, PB_8);
 
     Ticker tickerLvgl;
