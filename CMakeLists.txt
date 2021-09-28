@@ -15,9 +15,9 @@ add_subdirectory(${MBED_PATH})
 add_subdirectory(custom_targets)
 
 add_subdirectory(lvgl)
-# target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
 add_subdirectory(lvglDriver)
+
+target_include_directories(lvglDriver INTERFACE lvgl)
 
 add_executable(${APP_TARGET}
     main.cpp
