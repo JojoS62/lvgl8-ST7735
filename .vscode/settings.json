@@ -1,7 +1,7 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.buildDirectory": "${workspaceFolder}/cmake_build/STM32F407VE_BLACK/develop/GCC_ARM",
-    "cmake.configureOnOpen": true,
+    "cmake.configureOnOpen": false,
 	"clangd.checkUpdates": true,
 	"clangd.arguments": [
 		"--query-driver=C:/Program Files/LLVM/bin/clang.exe",
