@@ -13,7 +13,7 @@
             "windowsSdkVersion": "10.0.18362.0",
             "compilerPath": "C:/Program Files/LLVM/bin/clang++.exe",
             "configurationProvider": "ms-vscode.cmake-tools",
-            "intelliSenseMode": "windows-clang-arm"
+            "intelliSenseMode": "windows-clang-x86"
         }
     ],
     "version": 4
