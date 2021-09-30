@@ -23,6 +23,7 @@
 			"*.htm": "html",
 			"*.html": "html",
 			"new": "cpp"
-		}
+		},
+		"cortex-debug.registerUseNaturalFormat": true
 	}
 }
