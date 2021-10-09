@@ -39,6 +39,15 @@
         },
         {
             "cwd": "${workspaceRoot}",
+            "executable": "cmake_build/STM32F407VE_BLACK/debug/GCC_ARM/${workspaceFolderBasename}.elf",
+            "name": "debug stlink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stlink",
+            "v1": false
+        },
+        {
+            "cwd": "${workspaceRoot}",
             "executable": "cmake_build/STM32F407VE_BLACK/develop/GCC_ARM/${workspaceFolderBasename}.elf",
             "name": "develop stlink",
             "request": "launch",
@@ -141,6 +150,26 @@
             "request": "launch",
             "servertype": "bmp",
             "executable": "cmake_build/STM32F407VE_BLACK/develop/GCC_ARM/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "debug COM4",
+            "BMPGDBSerialPort": "//./COM4",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "cmake_build/STM32F407VE_BLACK/debug/GCC_ARM/${workspaceFolderBasename}.elf"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "name": "release COM4",
+            "BMPGDBSerialPort": "//./COM4",
+            "interface": "swd",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "executable": "cmake_build/STM32F407VE_BLACK/release/GCC_ARM/${workspaceFolderBasename}.elf"
         }
     ]
 }

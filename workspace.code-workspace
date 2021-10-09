@@ -22,7 +22,9 @@
 			"*.cpp": "cpp",
 			"*.htm": "html",
 			"*.html": "html",
-			"new": "cpp"
+			"new": "cpp",
+			"ostream": "cpp",
+			"chrono": "cpp"
 		},
 		"cortex-debug.registerUseNaturalFormat": true
 	}

@@ -131,7 +131,7 @@
                 "--custom-targets-json",
                 "custom_targets/custom_targets.json",
                 "-b",
-                "develop"
+                "release"
             ],
             "problemMatcher": [
                 "$gcc"

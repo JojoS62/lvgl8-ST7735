@@ -1,6 +1,6 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/STM32F407VE_BLACK/develop/GCC_ARM",
+    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/STM32F407VE_BLACK/release/GCC_ARM",
     "cmake.configureOnOpen": false,
 	"clangd.checkUpdates": true,
 	"clangd.arguments": [
