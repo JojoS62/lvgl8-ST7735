@@ -144,7 +144,7 @@ void lv_gauge_screen(lv_disp_t* disp, lv_gaugescreen_param_t* retparam)
     lv_obj_t* meter = lv_meter_create(scr);
     lv_obj_add_style(meter, &style, LV_PART_MAIN);
     lv_obj_center(meter);
-    int maxSize = min(lv_obj_get_width(scr), lv_obj_get_height(scr));
+    int maxSize = min(lv_obj_get_width(scr), lv_obj_get_height(scr)) - 10;
     lv_obj_set_size(meter, maxSize, maxSize);
 
     /*Add a scale first*/
@@ -223,7 +223,7 @@ int main()
 
     while(true) {
         lv_task_handler();
-        ThisThread::sleep_for(10ms);
+        ThisThread::sleep_for(20ms);
         led1 = !led1;
 
         newValue = aIn.read() * 115.0f - 15.0f;
