@@ -39,13 +39,12 @@
         },
         {
             "cwd": "${workspaceRoot}",
-            "executable": "../../BUILD/${workspaceFolderBasename}/Debug/${workspaceFolderBasename}.elf",
-            "name": "debug stlink",
+            "executable": "cmake_build/STM32F407VE_BLACK/develop/GCC_ARM/${workspaceFolderBasename}.elf",
+            "name": "develop stlink",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "stlink",
-            "v1": false,
-            "showDevDebugOutput": true
+            "v1": false
         },
         {
             "cwd": "${workspaceRoot}",
