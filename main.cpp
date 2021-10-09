@@ -12,6 +12,7 @@
 
 SPI spiDisplay(PB_5, NC, PB_3);
 DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
+DigitalOut csFlash(PA_15, 1);   // flash cs off
 
 // simple lv screen 
 
@@ -143,7 +144,8 @@ void lv_gauge_screen(lv_disp_t* disp, lv_gaugescreen_param_t* retparam)
     lv_obj_t* meter = lv_meter_create(scr);
     lv_obj_add_style(meter, &style, LV_PART_MAIN);
     lv_obj_center(meter);
-    lv_obj_set_size(meter, 128, 128);
+    int maxSize = min(lv_obj_get_width(scr), lv_obj_get_height(scr));
+    lv_obj_set_size(meter, maxSize, maxSize);
 
     /*Add a scale first*/
     lv_meter_scale_t * scale = lv_meter_add_scale(meter);
@@ -198,14 +200,19 @@ int main()
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
 
-    // [[maybe_unused]] LVGLDispGC9A01* lvglDisplayGC9A01_1 = new LVGLDispGC9A01(spiDisplay, PB_9, PB_6, PB_7, PB_8);
-    [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, PB_9, PB_6, PB_7);
+    [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, PB_9, PB_6, PB_7, PB_8);
+    // [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, PB_9, PB_6, PB_7);
+
+    lv_theme_t * th = lv_theme_default_init(lvglDisplay_2->getLVDisp(),  /*Use the DPI, size, etc from this display*/ 
+                                            lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+                                            false, &lv_font_montserrat_14);
+                                            
+    lv_disp_set_theme(lvglDisplay_2->getLVDisp(), th); /*Assign the theme to the display*/
 
     Ticker tickerLvgl;
     tickerLvgl.attach(callback(&fnLvTicker), 2ms);
 
     create_lv_screen(lvglDisplay_main->getLVDisp());
-    // create_lv_screen(lvglDisplay_2->getLVDisp());
 
     lv_gaugescreen_param_t gauge_param {0};
     lv_gauge_screen(lvglDisplay_2->getLVDisp(), &gauge_param);
