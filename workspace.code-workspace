@@ -1,6 +1,9 @@
 {
 	"folders": [
 		{
+			"path": "."
+		},
+		{
 			"path": "lvgl"
 		},
 		{
@@ -12,9 +15,6 @@
 		{
 			"name": "custom_targets",
 			"path": "custom_targets"
-		},
-		{
-			"path": "."
 		}
 	],
 	"settings": {
@@ -26,6 +26,10 @@
 			"ostream": "cpp",
 			"chrono": "cpp"
 		},
-		"cortex-debug.registerUseNaturalFormat": true
+		"cortex-debug.registerUseNaturalFormat": true,
+		"cmake.autoSelectActiveFolder": false,
+		"cmake.buildBeforeRun": false,
+		"cmake.configureOnEdit": false,
+		"cmake.useCMakePresets": "never"
 	}
 }
