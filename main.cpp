@@ -10,7 +10,7 @@
 #include "lvglDriver/TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
 #include "lvglDriver/LVGLInputDriverBase.h"
 
-SPI spiDisplay(PB_5, NC, PB_3);
+SPI spiDisplay(PA_7, NC, PA_5);
 DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
 DigitalOut csFlash(PA_15, 1);   // flash cs off
 
@@ -191,6 +191,7 @@ void fnLvTicker()
 
 int main()
 {
+    printf("Test for TFT Displays\n");
     printf("Hello from "  MBED_STRINGIFY(TARGET_NAME) "\n");
     printf("Mbed OS version: %d.%d.%d\n\n", MBED_MAJOR_VERSION, MBED_MINOR_VERSION, MBED_PATCH_VERSION);
 
@@ -200,7 +201,8 @@ int main()
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
 
-    [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, PB_9, PB_6, PB_7, PB_8);
+                                        //LVGLDispGC9A01(SPI &spi, PinName pinCS, PinName pinCMD, PinName pinRST, PinName pinBacklight
+    [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, PA_4, PA_6, PA_2, PA_3);
     // [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, PB_9, PB_6, PB_7);
 
     lv_theme_t * th = lv_theme_default_init(lvglDisplay_2->getLVDisp(),  /*Use the DPI, size, etc from this display*/ 
