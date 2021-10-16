@@ -57,6 +57,15 @@
         },
         {
             "cwd": "${workspaceRoot}",
+            "executable": "cmake_build/STM32F407VE_BLACK/release/GCC_ARM/${workspaceFolderBasename}.elf",
+            "name": "release stlink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stlink",
+            "v1": false
+        },
+        {
+            "cwd": "${workspaceRoot}",
             "executable": "../../BUILD/${workspaceFolderBasename}/DEBUG/${workspaceFolderBasename}.elf",
             "name": "debug OpenOCD F4 STLink-2.0",
             "request": "launch",

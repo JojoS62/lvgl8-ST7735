@@ -10,5 +10,6 @@
 		"--clang-tidy",
 		"--header-insertion=never",
 		"--suggest-missing-includes"
-	]
+	],
+	"cmake.configureOnEdit": false,
 }
