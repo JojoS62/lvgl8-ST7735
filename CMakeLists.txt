@@ -12,22 +12,24 @@ include(${MBED_PATH}/tools/cmake/app.cmake)
 project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
+
 add_subdirectory(custom_targets)
 
-add_subdirectory(lvgl)
+set(MICROPY_DIR "dummy")
 add_subdirectory(lvglDriver)
-
-target_include_directories(lvglDriver INTERFACE lvgl)
+add_subdirectory(lvgl)
 
 add_executable(${APP_TARGET}
     main.cpp
 )
 
+target_include_directories(${APP_TARGET} PRIVATE lvgl)
+
 target_link_libraries(${APP_TARGET}
     PRIVATE
         mbed-os
-        lvgl
         lvglDriver
+        lvgl_interface
 )
 
 mbed_set_post_build(${APP_TARGET})

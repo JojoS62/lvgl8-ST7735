@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "lvglDriver"
 		},
 		{
 			"path": "lvgl"
@@ -10,11 +10,11 @@
 			"path": "mbed-os"
 		},
 		{
-			"path": "lvglDriver"
-		},
-		{
 			"name": "custom_targets",
 			"path": "custom_targets"
+		},
+		{
+			"path": "."
 		}
 	],
 	"settings": {
