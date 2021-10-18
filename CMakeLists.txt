@@ -1,7 +1,7 @@
 # Copyright (c) 2021 ARM Limited. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-cmake_minimum_required(VERSION 3.21.0)
+cmake_minimum_required(VERSION 3.19.0)
 
 set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
@@ -15,7 +15,7 @@ add_subdirectory(${MBED_PATH})
 
 add_subdirectory(custom_targets)
 
-set(MICROPY_DIR "dummy")
+set(MICROPY_DIR true)           # force lvgl to create an interface lib
 add_subdirectory(lvglDriver)
 add_subdirectory(lvgl)
 
