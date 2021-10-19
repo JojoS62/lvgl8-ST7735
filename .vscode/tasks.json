@@ -128,8 +128,10 @@
                 "STM32F407VE_BLACK",
                 "-t",
                 "GCC_ARM",
+                "--mbed-os-path",
+                "../../mbed-os",
                 "--custom-targets-json",
-                "custom_targets/custom_targets.json",
+                "../../custom_targets/custom_targets.json",
                 "-b",
                 "release"
             ],

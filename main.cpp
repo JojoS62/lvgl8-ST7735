@@ -4,11 +4,11 @@
  */
 
 #include "mbed.h"
-#include "lvgl/lvgl.h"
-#include "lvglDriver/LVGLDispDriver_GC9A01.h"
-#include "lvglDriver/LVGLDispDriver_ST7735.h"
-#include "lvglDriver/TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
-#include "lvglDriver/LVGLInputDriverBase.h"
+#include "lvgl.h"
+#include "LVGLDispDriver_GC9A01.h"
+#include "LVGLDispDriver_ST7735.h"
+#include "TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
+#include "LVGLInputDriverBase.h"
 
 SPI spiDisplay(PA_7, NC, PA_5);
 DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on

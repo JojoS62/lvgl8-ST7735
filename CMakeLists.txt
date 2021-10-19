@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.19.0)
 
-set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os CACHE INTERNAL "")
+set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../mbed-os CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
 set(APP_TARGET lvgl8-ST7735)
 
@@ -11,19 +11,19 @@ include(${MBED_PATH}/tools/cmake/app.cmake)
 
 project(${APP_TARGET})
 
-add_subdirectory(${MBED_PATH})
-
-add_subdirectory(custom_targets)
-
-set(MICROPY_DIR true)           # force lvgl to create an interface lib
-add_subdirectory(lvglDriver)
-add_subdirectory(lvgl)
-
 add_executable(${APP_TARGET}
     main.cpp
 )
 
-target_include_directories(${APP_TARGET} PRIVATE lvgl)
+target_include_directories(${APP_TARGET} PRIVATE "../../libs/lvgl")
+target_include_directories(${APP_TARGET} PRIVATE ".")
+
+add_subdirectory(${MBED_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mbed-os)
+add_subdirectory(../../custom_targets ${CMAKE_CURRENT_BINARY_DIR}/custom_targets)
+add_subdirectory(../../libs/lvglDriver ${CMAKE_CURRENT_BINARY_DIR}/lvglDriver)
+set(MICROPY_DIR true)           # force lvgl to create an interface lib
+add_subdirectory(../../libs/lvgl ${CMAKE_CURRENT_BINARY_DIR}/lvgl)
+
 
 target_link_libraries(${APP_TARGET}
     PRIVATE

@@ -1,17 +1,17 @@
 {
 	"folders": [
 		{
-			"path": "lvglDriver"
+			"path": "../../libs/lvglDriver"
 		},
 		{
-			"path": "lvgl"
+			"path": "../../libs/lvgl"
 		},
 		{
-			"path": "mbed-os"
+			"path": "../../mbed-os"
 		},
 		{
 			"name": "custom_targets",
-			"path": "custom_targets"
+			"path": "../../custom_targets"
 		},
 		{
 			"path": "."
