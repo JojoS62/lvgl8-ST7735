@@ -99,7 +99,8 @@
             ],
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "group": "build"
         },
         {
             "label": "compile BLUEPILL_F103C8",
@@ -117,7 +118,8 @@
             ],
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "group": "build"
         },
         {
             "label": "compile STM32F407VE_BLACK",
@@ -134,6 +136,18 @@
                 "../../custom_targets/custom_targets.json",
                 "-b",
                 "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "build STM32F407VE_BLACK",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/STM32F407VE_BLACK/release/GCC_ARM"
             ],
             "problemMatcher": [
                 "$gcc"
