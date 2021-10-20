@@ -3,34 +3,54 @@
 
 cmake_minimum_required(VERSION 3.19.0)
 
+# this would advise cmake to create larger object pathes, 
+# but Ninja for Windows cannot handle path >260 chars
+# set(CMAKE_OBJECT_PATH_MAX 512)
+
 set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../mbed-os CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
-set(APP_TARGET lvgl8-ST7735)
+set(LIB_PATH "../../libs")
+set(CUSTOM_TARGETS_PATH "../../custom_targets")
 
 include(${MBED_PATH}/tools/cmake/app.cmake)
 
+set(APP_TARGET lvgl8-ST7735)
 project(${APP_TARGET})
 
 add_executable(${APP_TARGET}
     main.cpp
 )
 
-target_include_directories(${APP_TARGET} PRIVATE "../../libs/lvgl")
-target_include_directories(${APP_TARGET} PRIVATE ".")
+add_subdirectory(${MBED_PATH} ./mbed-os)
 
-add_subdirectory(${MBED_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mbed-os)
-add_subdirectory(../../custom_targets ${CMAKE_CURRENT_BINARY_DIR}/custom_targets)
-add_subdirectory(../../libs/lvglDriver ${CMAKE_CURRENT_BINARY_DIR}/lvglDriver)
+# uncomment for lvgl interface build
 set(MICROPY_DIR true)           # force lvgl to create an interface lib
-add_subdirectory(../../libs/lvgl ${CMAKE_CURRENT_BINARY_DIR}/lvgl)
+add_subdirectory(${LIB_PATH}/lvgl ./lvgl_interface)
+list(APPEND EXTRA_LIBS lvgl_interface)
+list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvgl")
 
+# uncomment for lvgl static build
+# add_subdirectory(${LIB_PATH}/lvgl ./lvgl)
+# list(APPEND EXTRA_LIBS lvgl)
+# list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvgl")
+
+add_subdirectory(${LIB_PATH}/lvglDriver ./lvglDriver)
+list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
+list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvglDriver")
+
+add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
 
 target_link_libraries(${APP_TARGET}
     PRIVATE
         mbed-os
-        lvglDriver
-        lvgl_interface
-)
+        ${EXTRA_LIBS}
+    )
+
+target_include_directories(${APP_TARGET} 
+    PRIVATE 
+        "."
+        ${EXTRA_INCLUDES}
+    )
 
 mbed_set_post_build(${APP_TARGET})
 
