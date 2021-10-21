@@ -10,8 +10,8 @@ cmake_minimum_required(VERSION 3.19.0)
 set(MBED_MEMAP_DEPTH 4)
 set(MBED_MEMAP_CREATE_JSON false)
 
-set(USE_SHARED_LIB_STRUCT false)
-set(LVGL_STATIC false)
+set(USE_SHARED_LIB_STRUCT true)
+set(LVGL_STATIC true)
 
 if (${USE_SHARED_LIB_STRUCT})
     set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../mbed-os CACHE INTERNAL "")
@@ -28,23 +28,23 @@ if (${USE_SHARED_LIB_STRUCT})
         main.cpp
     )
 
-    add_subdirectory(${MBED_PATH} ./mbed-os)
 
     if (${LVGL_STATIC})
-        add_subdirectory(${LIB_PATH}lvgl ./lvgl)
+        add_subdirectory(${LIB_PATH}lvgl ${CMAKE_CURRENT_BINARY_DIR}/lvgl)
     else()
         set(MICROPY_DIR true)           # force lvgl to create an interface lib
         add_subdirectory(${LIB_PATH}lvgl ./lvgl)
         add_library(lvgl ALIAS lvgl_interface)   # for compatibility with static/interface libs
     endif()
     list(APPEND EXTRA_LIBS lvgl)
-    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
+    # list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
 
-    add_subdirectory(${LIB_PATH}lvglDriver ./lvglDriver)
+    add_subdirectory(${LIB_PATH}lvglDriver ${CMAKE_CURRENT_BINARY_DIR}/lvglDriver)
     list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
-    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvglDriver")
 
     add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
+
+    add_subdirectory(${MBED_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mbed-os)
 
     target_link_libraries(${APP_TARGET}
         PRIVATE
