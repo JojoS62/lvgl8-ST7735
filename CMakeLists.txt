@@ -7,54 +7,116 @@ cmake_minimum_required(VERSION 3.19.0)
 # but Ninja for Windows cannot handle path >260 chars
 # set(CMAKE_OBJECT_PATH_MAX 512)
 
-set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../mbed-os CACHE INTERNAL "")
-set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
-set(LIB_PATH "../../libs")
-set(CUSTOM_TARGETS_PATH "../../custom_targets")
+set(MBED_MEMAP_DEPTH 4)
+set(MBED_MEMAP_CREATE_JSON false)
 
-include(${MBED_PATH}/tools/cmake/app.cmake)
+set(USE_SHARED_STRUCT true)
+set(LVGL_STATIC true)
 
-set(APP_TARGET lvgl8-ST7735)
-project(${APP_TARGET})
+if (${USE_SHARED_STRUCT})
+    set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../mbed-os CACHE INTERNAL "")
+    set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
+    set(LIB_PATH "../../libs/")
+    set(CUSTOM_TARGETS_PATH "../../custom_targets/")
 
-add_executable(${APP_TARGET}
-    main.cpp
-)
+    include(${MBED_PATH}/tools/cmake/app.cmake)
 
-add_subdirectory(${MBED_PATH} ./mbed-os)
+    set(APP_TARGET lvgl8-ST7735)
+    project(${APP_TARGET})
 
-# uncomment for lvgl interface build
-set(MICROPY_DIR true)           # force lvgl to create an interface lib
-add_subdirectory(${LIB_PATH}/lvgl ./lvgl_interface)
-list(APPEND EXTRA_LIBS lvgl_interface)
-list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvgl")
-
-# uncomment for lvgl static build
-# add_subdirectory(${LIB_PATH}/lvgl ./lvgl)
-# list(APPEND EXTRA_LIBS lvgl)
-# list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvgl")
-
-add_subdirectory(${LIB_PATH}/lvglDriver ./lvglDriver)
-list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
-list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvglDriver")
-
-add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
-
-target_link_libraries(${APP_TARGET}
-    PRIVATE
-        mbed-os
-        ${EXTRA_LIBS}
+    add_executable(${APP_TARGET}
+        main.cpp
     )
 
-target_include_directories(${APP_TARGET} 
-    PRIVATE 
-        "."
-        ${EXTRA_INCLUDES}
+    add_subdirectory(${MBED_PATH} ./mbed-os)
+
+    # uncomment for lvgl interface build
+    # set(MICROPY_DIR true)           # force lvgl to create an interface lib
+    # add_subdirectory(${LIB_PATH}lvgl ./lvgl_interface)
+    # list(APPEND EXTRA_LIBS lvgl_interface)
+    # list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
+
+    # uncomment for lvgl static build
+    add_subdirectory(${LIB_PATH}/lvgl ./lvgl)
+    list(APPEND EXTRA_LIBS lvgl)
+    list(APPEND EXTRA_INCLUDES "${LIB_PATH}/lvgl")
+
+    add_subdirectory(${LIB_PATH}lvglDriver ./lvglDriver)
+    list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
+    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvglDriver")
+
+    add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
+
+    target_link_libraries(${APP_TARGET}
+        PRIVATE
+            mbed-os
+            ${EXTRA_LIBS}
+        )
+
+    target_include_directories(${APP_TARGET} 
+        PRIVATE 
+            "."
+            ${EXTRA_INCLUDES}
+        )
+
+    mbed_set_post_build(${APP_TARGET})
+
+    option(VERBOSE_BUILD "Have a verbose build process")
+    if(VERBOSE_BUILD)
+        set(CMAKE_VERBOSE_MAKEFILE ON)
+    endif()
+else()
+    set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os CACHE INTERNAL "")
+    set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
+    set(LIB_PATH "")
+    set(CUSTOM_TARGETS_PATH "custom_targets")
+
+    include(${MBED_PATH}/tools/cmake/app.cmake)
+
+    set(APP_TARGET lvgl8-ST7735)
+    project(${APP_TARGET})
+
+    add_executable(${APP_TARGET}
+        main.cpp
     )
 
-mbed_set_post_build(${APP_TARGET})
+    add_subdirectory(${MBED_PATH})
 
-option(VERBOSE_BUILD "Have a verbose build process")
-if(VERBOSE_BUILD)
-    set(CMAKE_VERBOSE_MAKEFILE ON)
+    if (${LVGL_STATIC})
+        add_subdirectory(${LIB_PATH}lvgl)
+    else()
+        set(MICROPY_DIR true)           # force lvgl to create an interface lib
+        add_subdirectory(${LIB_PATH}lvgl)
+        add_library(lvgl ALIAS lvgl_interface)   # for compatibility with static/interface libs
+    endif()
+
+    list(APPEND EXTRA_LIBS lvgl)
+    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
+
+
+    add_subdirectory(${LIB_PATH}lvglDriver)
+    list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
+    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvglDriver")
+
+    add_subdirectory(${CUSTOM_TARGETS_PATH})     # interface lib
+
+    target_link_libraries(${APP_TARGET}
+        PRIVATE
+            mbed-os
+            ${EXTRA_LIBS}
+        )
+
+    target_include_directories(${APP_TARGET} 
+        PRIVATE 
+            "."
+            ${EXTRA_INCLUDES}
+        )
+
+    mbed_set_post_build(${APP_TARGET})
+
+    option(VERBOSE_BUILD "Have a verbose build process")
+    if(VERBOSE_BUILD)
+        set(CMAKE_VERBOSE_MAKEFILE ON)
+    endif()
 endif()
+
