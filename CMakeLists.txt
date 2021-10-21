@@ -43,7 +43,7 @@ if (${USE_SHARED_LIB_STRUCT})
         add_library(lvgl ALIAS lvgl_interface)   # for compatibility with static/interface libs
     endif()
     list(APPEND EXTRA_LIBS lvgl)
-    # list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
+    list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
 
     add_subdirectory(${LIB_PATH}lvglDriver ${CMAKE_CURRENT_BINARY_DIR}/lvglDriver)
     list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
