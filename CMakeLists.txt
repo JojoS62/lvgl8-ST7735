@@ -28,9 +28,15 @@ if (${USE_SHARED_LIB_STRUCT})
         main.cpp
     )
 
+    target_include_directories(${APP_TARGET} 
+        PRIVATE 
+            "."
+        )
+
 
     if (${LVGL_STATIC})
         add_subdirectory(${LIB_PATH}lvgl ${CMAKE_CURRENT_BINARY_DIR}/lvgl)
+        target_compile_options(lvgl PRIVATE -Os)
     else()
         set(MICROPY_DIR true)           # force lvgl to create an interface lib
         add_subdirectory(${LIB_PATH}lvgl ./lvgl)
@@ -54,7 +60,6 @@ if (${USE_SHARED_LIB_STRUCT})
 
     target_include_directories(${APP_TARGET} 
         PRIVATE 
-            "."
             ${EXTRA_INCLUDES}
         )
 
@@ -83,6 +88,7 @@ else()
 
     if (${LVGL_STATIC})
         add_subdirectory(${LIB_PATH}lvgl)
+        target_compile_options(lvgl PRIVATE -Os)
     else()
         set(MICROPY_DIR true)           # force lvgl to create an interface lib
         add_subdirectory(${LIB_PATH}lvgl)
