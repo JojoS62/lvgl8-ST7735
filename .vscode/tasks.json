@@ -156,6 +156,19 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "build clean STM32F407VE_BLACK",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/STM32F407VE_BLACK/release/GCC_ARM",
+                "--clean-first"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
         }
     ]
 }
