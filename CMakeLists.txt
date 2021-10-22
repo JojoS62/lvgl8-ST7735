@@ -30,22 +30,25 @@ if (${USE_SHARED_LIB_STRUCT})
 
     target_include_directories(${APP_TARGET} 
         PRIVATE 
-            "."
+            ${CMAKE_CURRENT_SOURCE_DIR}
         )
 
 
     if (${LVGL_STATIC})
-        add_subdirectory(${LIB_PATH}lvgl ${CMAKE_CURRENT_BINARY_DIR}/lvgl)
+        add_subdirectory(${LIB_PATH}lvgl lvgl)
         target_compile_options(lvgl PRIVATE -Os)
+        target_compile_definitions(lvgl PRIVATE LV_CONF_INCLUDE_SIMPLE)
+        target_include_directories(lvgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
     else()
         set(MICROPY_DIR true)           # force lvgl to create an interface lib
-        add_subdirectory(${LIB_PATH}lvgl ./lvgl)
+        add_subdirectory(${LIB_PATH}lvgl lvgl)
         add_library(lvgl ALIAS lvgl_interface)   # for compatibility with static/interface libs
     endif()
     list(APPEND EXTRA_LIBS lvgl)
     list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
 
-    add_subdirectory(${LIB_PATH}lvglDriver ${CMAKE_CURRENT_BINARY_DIR}/lvglDriver)
+    add_subdirectory(${LIB_PATH}lvglDriver lvglDriver)
+    target_compile_definitions(lvglDriver PRIVATE LV_CONF_INCLUDE_SIMPLE)
     list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
 
     add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
