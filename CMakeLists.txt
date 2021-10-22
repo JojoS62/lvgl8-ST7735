@@ -36,7 +36,7 @@ if (${USE_SHARED_LIB_STRUCT})
 
     if (${LVGL_STATIC})
         add_subdirectory(${LIB_PATH}lvgl lvgl)
-        target_compile_options(lvgl PRIVATE -O3)
+        target_compile_options(lvgl PRIVATE -Os)
         target_compile_definitions(lvgl PRIVATE LV_CONF_INCLUDE_SIMPLE )
         target_compile_definitions(lvgl_examples PRIVATE  LV_CONF_INCLUDE_SIMPLE LV_DEMO_CONF_INCLUDE_SIMPLE)
         target_include_directories(lvgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
