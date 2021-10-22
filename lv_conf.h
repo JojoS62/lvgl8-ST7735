@@ -303,7 +303,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
  *https://fonts.google.com/specimen/Montserrat*/
 #define LV_FONT_MONTSERRAT_8     0
 #define LV_FONT_MONTSERRAT_10    1
-#define LV_FONT_MONTSERRAT_12    0
+#define LV_FONT_MONTSERRAT_12    1
 #define LV_FONT_MONTSERRAT_14    1
 #define LV_FONT_MONTSERRAT_16    0
 #define LV_FONT_MONTSERRAT_18    1
@@ -324,7 +324,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #define LV_FONT_MONTSERRAT_48    0
 
 /*Demonstrate special features*/
-#define LV_FONT_MONTSERRAT_12_SUBPX      0
+#define LV_FONT_MONTSERRAT_12_SUBPX      1
 #define LV_FONT_MONTSERRAT_28_COMPRESSED 0  /*bpp = 3*/
 #define LV_FONT_DEJAVU_16_PERSIAN_HEBREW 0  /*Hebrew, Arabic, Perisan letters and all their forms*/
 #define LV_FONT_SIMSUN_16_CJK            0  /*1000 most common CJK radicals*/

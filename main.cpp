@@ -138,7 +138,7 @@ void lv_gauge_screen(lv_disp_t* disp, lv_gaugescreen_param_t* retparam)
     lv_style_init(&style);
     lv_style_set_pad_all(&style, 0);
     lv_style_set_border_width(&style, 1);
-    lv_style_set_text_font(&style, &lv_font_montserrat_10);
+    lv_style_set_text_font(&style, &lv_font_montserrat_12);
 
 
     lv_obj_t* meter = lv_meter_create(scr);
