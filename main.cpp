@@ -14,7 +14,21 @@ SPI spiDisplay(PA_7, NC, PA_5);
 DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
 DigitalOut csFlash(PA_15, 1);   // flash cs off
 
+uint32_t cur_time_h;
+uint32_t cur_time_m;
+uint32_t cur_time_s; 
+
 // simple lv screen 
+
+static lv_style_t style;
+
+void set_lv_common_styles()
+{
+    lv_style_init(&style);
+    lv_style_set_pad_all(&style, 4);
+    lv_style_set_border_width(&style, 2);
+    lv_style_set_text_font(&style, &lv_font_montserrat_12);
+}
 
 void btn_event_cb(lv_event_t * e)
 {
@@ -115,6 +129,82 @@ void create_lv_screen_3(lv_disp_t* disp)
     lv_obj_align_to(label4V, label4, LV_ALIGN_BOTTOM_LEFT, 100, 0);
 }
 
+static lv_obj_t *lvMinute;
+static lv_obj_t *lvHour;
+static lv_obj_t *lvSecond; 
+
+void lv_clock_img(lv_disp_t* disp)
+{
+    lv_obj_t *scr = lv_disp_get_scr_act(disp);
+
+    LV_IMG_DECLARE(watch_bg)
+    LV_IMG_DECLARE(minute)
+    LV_IMG_DECLARE(second)
+    LV_IMG_DECLARE(hour)
+
+    lv_obj_t *img = lv_img_create(scr);
+    lv_img_set_src(img, &watch_bg);
+    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+
+    lvHour = lv_img_create(img);
+    lv_img_set_src(lvHour, &hour);
+    lv_obj_align(lvHour, LV_ALIGN_CENTER, 0, 0);
+    lv_img_set_angle(lvHour, 900);
+
+    lvMinute = lv_img_create(img);
+    lv_img_set_src(lvMinute, &minute);
+    lv_img_set_zoom(lvMinute, 300);
+    lv_obj_align(lvMinute, LV_ALIGN_CENTER, 0, 0);
+
+    lvSecond = lv_img_create(img);
+    lv_img_set_src( lvSecond, &second);
+    lv_img_set_zoom(lvSecond, 350);
+    lv_obj_align(  lvSecond, LV_ALIGN_CENTER, 0, 0); 
+}
+
+
+static lv_obj_t *meter;
+static lv_meter_indicator_t *indic_hundreth;
+static lv_meter_indicator_t *indic_seconds;
+
+void lv_clock(lv_disp_t* disp)
+{
+    lv_obj_t *scr = lv_disp_get_scr_act(disp);
+
+    meter = lv_meter_create(scr);
+    lv_obj_add_style(meter, &style, LV_PART_MAIN);
+    int maxSize = min(lv_obj_get_width(scr), lv_obj_get_height(scr)) - 0;
+    lv_obj_set_size(meter, maxSize, maxSize);
+    lv_obj_center(meter);
+
+    /*Create a scale for the seconds */
+    /*61 ticks in a 360 degrees range (the last and the first line overlaps)*/
+    lv_meter_scale_t * scale_hundreth = lv_meter_add_scale(meter);
+    lv_meter_set_scale_ticks(meter, scale_hundreth, 100, 0, 0, lv_palette_main(LV_PALETTE_GREY));
+    lv_meter_set_scale_range(meter, scale_hundreth, 0, 100, 360, 270);
+
+    /*Create an other scale for the hours. It's only visual and contains only major ticks*/
+    lv_meter_scale_t * scale_seconds = lv_meter_add_scale(meter);
+    lv_meter_set_scale_ticks(meter, scale_seconds, 61, 1, 10, lv_palette_main(LV_PALETTE_GREY));               /*12 ticks*/
+    // lv_meter_set_scale_major_ticks(meter, scale_seconds, 5, 2, 20, lv_color_black(), 10);    /*Every 5th tick is major*/
+    lv_meter_set_scale_range(meter, scale_seconds, 0, 60, 360, 270);       /*[1..12] values in an almost full circle*/
+
+    /*Create an other scale for the hours. It's only visual and contains only major ticks*/
+    lv_meter_scale_t * scale_seconds_numbers = lv_meter_add_scale(meter);
+    lv_meter_set_scale_ticks(meter, scale_seconds_numbers, 12, 0, 0, lv_palette_main(LV_PALETTE_GREY));               /*12 ticks*/
+    lv_meter_set_scale_major_ticks(meter, scale_seconds_numbers, 1, 2, 20, lv_color_black(), 10);    /*Every 5th tick is major*/
+    lv_meter_set_scale_range(meter, scale_seconds_numbers, 0, 55, 360-(360/12), 270);       /*[1..12] values in an almost full circle*/
+
+    // LV_IMG_DECLARE(img_hand)
+
+    /*Add a the hands from images*/
+    indic_seconds = lv_meter_add_needle_line(meter, scale_seconds, 4, lv_palette_main(LV_PALETTE_GREY), -10);
+    indic_hundreth = lv_meter_add_needle_line(meter, scale_hundreth, 4, lv_palette_main(LV_PALETTE_GREY), -10);
+
+    // indic_seconds = lv_meter_add_needle_img(meter, scale_seconds, &img_hand, 5, 5);
+    // indic_hundreth = lv_meter_add_needle_img(meter, scale_hundreth, &img_hand, 5, 5);
+}
+
 void gauge_set_value(lv_obj_t* meter, lv_meter_indicator_t * indic, int32_t v)
 {
     lv_meter_set_indicator_value(meter, indic, v);
@@ -133,13 +223,6 @@ void lv_gauge_screen(lv_disp_t* disp, lv_gaugescreen_param_t* retparam)
 {
     lv_obj_t * scr = lv_disp_get_scr_act(disp);
     lv_disp_load_scr(scr);
-
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_pad_all(&style, 0);
-    lv_style_set_border_width(&style, 1);
-    lv_style_set_text_font(&style, &lv_font_montserrat_12);
-
 
     lv_obj_t* meter = lv_meter_create(scr);
     lv_obj_add_style(meter, &style, LV_PART_MAIN);
@@ -197,6 +280,19 @@ int main()
 
     spiDisplay.frequency(50e6);     // will be limited to some internal value
 
+#if 0
+    tm Clock;
+    Clock.tm_year = 2021 - 1900;
+    Clock.tm_mon = 10;
+    Clock.tm_mday = 23;
+    Clock.tm_sec = 0;
+    Clock.tm_min = 45;
+    Clock.tm_hour = 17;
+ 
+    time_t epoch = mktime(&Clock);
+    set_time(epoch);
+#endif
+
     //lv_init();
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
@@ -214,14 +310,26 @@ int main()
     Ticker tickerLvgl;
     tickerLvgl.attach(callback(&fnLvTicker), 2ms);
 
-    create_lv_screen(lvglDisplay_main->getLVDisp());
+    set_lv_common_styles();
+
+    // create_lv_screen(lvglDisplay_main->getLVDisp());
 
     lv_gaugescreen_param_t gauge_param {0};
-    lv_gauge_screen(lvglDisplay_2->getLVDisp(), &gauge_param);
+    lv_gauge_screen(lvglDisplay_main->getLVDisp(), &gauge_param);
+
+    // lv_clock(lvglDisplay_2->getLVDisp());
+    lv_clock_img(lvglDisplay_2->getLVDisp());
 
     AnalogIn aIn(PA_0);
     float newValue;
     float maxValue = 0.0f;
+
+    Timer t;
+    chrono::microseconds prevTime;
+
+    t.start();
+    // int hundreth = 0;
+    // int seconds = 0;
 
     while(true) {
         lv_task_handler();
@@ -238,5 +346,39 @@ int main()
         }
 
         gauge_set_value(gauge_param.meter, gauge_param.indic, newValue);
+
+        chrono::microseconds actTime = t.elapsed_time();
+
+        if (actTime - prevTime > 1s) {
+            prevTime = actTime;
+        //     cur_time_s++;
+        //     if (cur_time_s > 59) {
+        //         cur_time_s = 0;
+        //         if(++cur_time_m > 59) {
+        //             cur_time_m = 0;
+        //             if(++cur_time_h > 23) {
+        //                 cur_time_h = 0;
+        //             }
+        //         }
+        //     }
+            time_t now = time(NULL);
+            tm *now_local =  localtime(&now);
+
+            lv_img_set_angle(lvSecond, now_local->tm_sec * 6 * 10); 
+            lv_img_set_angle(lvHour, now_local->tm_hour * 30 * 10);
+            lv_img_set_angle(lvMinute, now_local->tm_min * 6 * 10);  
+
+        // if (actTime - prevTime > 10ms) {
+        //     prevTime = actTime;
+        //     hundreth += 10;
+        //     if (hundreth > 99) {
+        //         hundreth -= 100;
+        //         if(++seconds > 59) {
+        //             seconds = 0;
+        //         }
+        //     }
+            // lv_meter_set_indicator_value(meter, indic_hundreth, hundreth);
+            // lv_meter_set_indicator_value(meter, indic_seconds, seconds);
+        }
     }
 }

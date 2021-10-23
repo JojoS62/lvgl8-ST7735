@@ -26,6 +26,21 @@ if (${USE_SHARED_LIB_STRUCT})
 
     add_executable(${APP_TARGET}
         main.cpp
+        lvScreens/img_hand.c
+        lvScreens/gaug1.c
+        lvScreens/gaug2.c
+        lvScreens/gaug3.c
+        lvScreens/gaug4.c
+        lvScreens/gaug5.c
+        lvScreens/gaug6.c
+        lvScreens/gaug7.c
+        lvScreens/gaug8.c
+        lvScreens/gaug9.c
+        lvScreens/gaug10.c
+        lvScreens/watch_bg.c
+        lvScreens/hour.c
+        lvScreens/minute.c
+        lvScreens/second.c
     )
 
     target_include_directories(${APP_TARGET} 

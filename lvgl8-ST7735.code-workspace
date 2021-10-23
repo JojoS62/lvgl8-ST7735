@@ -24,7 +24,8 @@
 			"*.html": "html",
 			"new": "cpp",
 			"ostream": "cpp",
-			"chrono": "cpp"
+			"chrono": "cpp",
+			"ctime": "cpp"
 		},
 		"cortex-debug.registerUseNaturalFormat": true,
 		"cmake.autoSelectActiveFolder": false,
