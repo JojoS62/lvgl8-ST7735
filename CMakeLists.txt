@@ -46,7 +46,7 @@ if (${USE_SHARED_LIB_STRUCT})
     target_include_directories(${APP_TARGET} 
         PRIVATE 
             ${CMAKE_CURRENT_SOURCE_DIR}
-        )
+    )
 
 
     if (${LVGL_STATIC})
@@ -64,12 +64,11 @@ if (${USE_SHARED_LIB_STRUCT})
     list(APPEND EXTRA_INCLUDES "${LIB_PATH}lvgl")
 
     add_subdirectory(${LIB_PATH}lvglDriver lvglDriver)
-    target_compile_definitions(lvglDriver PRIVATE LV_CONF_INCLUDE_SIMPLE)
+    target_compile_definitions(lvglDriver INTERFACE LV_CONF_INCLUDE_SIMPLE)
     list(APPEND EXTRA_LIBS lvglDriver)     # interface lib
 
-    add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
-
     add_subdirectory(${MBED_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mbed-os)
+    add_subdirectory(${CUSTOM_TARGETS_PATH} ./custom_targets)     # interface lib
 
     target_link_libraries(${APP_TARGET}
         PRIVATE
