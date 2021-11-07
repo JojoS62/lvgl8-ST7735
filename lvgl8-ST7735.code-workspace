@@ -1,6 +1,9 @@
 {
 	"folders": [
 		{
+			"path": "."
+		},
+		{
 			"path": "../../libs/lvglDriver"
 		},
 		{
@@ -12,9 +15,6 @@
 		{
 			"name": "custom_targets",
 			"path": "../../custom_targets"
-		},
-		{
-			"path": "."
 		}
 	],
 	"settings": {
