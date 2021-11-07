@@ -103,7 +103,7 @@
             "group": "build"
         },
         {
-            "label": "compile BLUEPILL_F103C8",
+            "label": "compile BLUEPILL_F103CB",
             "command": "mbed-tools",
             "args": [
                 "compile",
@@ -112,7 +112,9 @@
                 "-t",
                 "GCC_ARM",
                 "--custom-targets-json",
-                "stm32customtargets/custom_targets.json",
+                "../../custom_targets/custom_targets.json",
+                "--mbed-os-path",
+                "../../mbed-os",
                 "-b",
                 "release"
             ],
@@ -152,10 +154,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "build clean STM32F407VE_BLACK",
@@ -163,6 +162,55 @@
             "args": [
                 "--build",
                 "cmake_build/STM32F407VE_BLACK/release/GCC_ARM",
+                "--clean-first"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "compile WEACT_F411CE",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "WEACT_F411CE",
+                "-t",
+                "GCC_ARM",
+                "--mbed-os-path",
+                "../../mbed-os",
+                "--custom-targets-json",
+                "../../custom_targets/custom_targets.json",
+                "-b",
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "build WEACT_F411CE",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/WEACT_F411CE/release/GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build clean WEACT_F411CE",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/WEACT_F411CE/release/GCC_ARM",
                 "--clean-first"
             ],
             "problemMatcher": [

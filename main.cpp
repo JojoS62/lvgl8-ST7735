@@ -7,7 +7,9 @@
 #include "lvgl.h"
 #include "LVGLDispDriver_GC9A01.h"
 #include "LVGLDispDriver_ST7735.h"
-#include "TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
+#ifdef TARGET_STM32F40VE_BLACK
+#  include "TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
+#endif
 #include "LVGLInputDriverBase.h"
 
 SPI spiDisplay(PA_7, NC, PA_5);
@@ -293,10 +295,10 @@ int main()
     set_time(epoch);
 #endif
 
-    //lv_init();
+#ifdef TARGET_STM32F40VE_BLACK
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
-
+#endif
                                         //LVGLDispGC9A01(SPI &spi, PinName pinCS, PinName pinCMD, PinName pinRST, PinName pinBacklight
     [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, PA_4, PA_6, PA_2, PA_3);
     // [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, PB_9, PB_6, PB_7);
@@ -314,8 +316,10 @@ int main()
 
     // create_lv_screen(lvglDisplay_main->getLVDisp());
 
+#ifdef TARGET_STM32F40VE_BLACK
     lv_gaugescreen_param_t gauge_param {0};
     lv_gauge_screen(lvglDisplay_main->getLVDisp(), &gauge_param);
+#endif
 
     // lv_clock(lvglDisplay_2->getLVDisp());
     lv_clock_img(lvglDisplay_2->getLVDisp());
@@ -345,8 +349,9 @@ int main()
             maxValue = newValue;
         }
 
+#ifdef TARGET_STM32F40VE_BLACK
         gauge_set_value(gauge_param.meter, gauge_param.indic, newValue);
-
+#endif
         chrono::microseconds actTime = t.elapsed_time();
 
         if (actTime - prevTime > 1s) {
