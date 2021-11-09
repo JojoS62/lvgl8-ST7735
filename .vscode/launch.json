@@ -62,6 +62,7 @@
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "stlink",
+            "runToMain": true,
             "v1": false
         },
         {
