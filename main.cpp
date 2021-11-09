@@ -7,11 +7,16 @@
 #include "lvgl.h"
 #include "LVGLDispDriver_GC9A01.h"
 #include "LVGLDispDriver_ST7735.h"
-#ifdef TARGET_STM32F40VE_BLACK
+#ifdef TARGET_STM32F407VE_BLACK
 #  include "TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
 #endif
 #include "LVGLInputDriverBase.h"
 
+static BufferedSerial console(STDIO_UART_TX, STDIO_UART_RX, 115200);
+FileHandle *mbed::mbed_override_console(int) {
+      return &console;
+ }
+  
 SPI spiDisplay(PA_7, NC, PA_5);
 DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
 DigitalOut csFlash(PA_15, 1);   // flash cs off
@@ -280,22 +285,12 @@ int main()
     printf("Hello from "  MBED_STRINGIFY(TARGET_NAME) "\n");
     printf("Mbed OS version: %d.%d.%d\n\n", MBED_MAJOR_VERSION, MBED_MINOR_VERSION, MBED_PATCH_VERSION);
 
-    spiDisplay.frequency(50e6);     // will be limited to some internal value
+    spiDisplay.frequency(50'000'000);     // will be limited to some internal value
 
-#if 0
-    tm Clock;
-    Clock.tm_year = 2021 - 1900;
-    Clock.tm_mon = 10;
-    Clock.tm_mday = 23;
-    Clock.tm_sec = 0;
-    Clock.tm_min = 45;
-    Clock.tm_hour = 17;
- 
-    time_t epoch = mktime(&Clock);
-    set_time(epoch);
-#endif
+    RealTimeClock rtc;
+    rtc.init();
 
-#ifdef TARGET_STM32F40VE_BLACK
+#ifdef TARGET_STM32F407VE_BLACK
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
 #endif
@@ -316,7 +311,7 @@ int main()
 
     // create_lv_screen(lvglDisplay_main->getLVDisp());
 
-#ifdef TARGET_STM32F40VE_BLACK
+#ifdef TARGET_STM32F407VE_BLACK
     lv_gaugescreen_param_t gauge_param {0};
     lv_gauge_screen(lvglDisplay_main->getLVDisp(), &gauge_param);
 #endif
@@ -332,13 +327,37 @@ int main()
     chrono::microseconds prevTime;
 
     t.start();
-    // int hundreth = 0;
-    // int seconds = 0;
 
     while(true) {
         lv_task_handler();
         ThisThread::sleep_for(20ms);
         led1 = !led1;
+
+        if (console.readable()) {
+            char ch;
+            console.read(&ch, 1);
+            switch (ch) {
+                case 'h' : {
+                    RealTimeClock::time_point seconds = rtc.now();
+                    seconds += 1h;
+                    rtc.write(seconds);
+                }
+                break;
+                case 'm' :
+                case '+' : {
+                    RealTimeClock::time_point seconds = rtc.now();
+                    seconds += 1min;
+                    rtc.write(seconds);
+                }
+                break;
+                case '-' : {
+                    RealTimeClock::time_point seconds = rtc.now();
+                    seconds -= 1min;
+                    rtc.write(seconds);
+                }
+                break;
+            }
+        }
 
         newValue = aIn.read() * 115.0f - 15.0f;
 
@@ -349,41 +368,20 @@ int main()
             maxValue = newValue;
         }
 
-#ifdef TARGET_STM32F40VE_BLACK
+#ifdef TARGET_STM32F407VE_BLACK
         gauge_set_value(gauge_param.meter, gauge_param.indic, newValue);
 #endif
         chrono::microseconds actTime = t.elapsed_time();
 
         if (actTime - prevTime > 1s) {
             prevTime = actTime;
-        //     cur_time_s++;
-        //     if (cur_time_s > 59) {
-        //         cur_time_s = 0;
-        //         if(++cur_time_m > 59) {
-        //             cur_time_m = 0;
-        //             if(++cur_time_h > 23) {
-        //                 cur_time_h = 0;
-        //             }
-        //         }
-        //     }
-            time_t now = time(NULL);
-            tm *now_local =  localtime(&now);
+
+            time_t now = rtc.to_time_t(rtc.now());
+            tm *now_local = localtime(&now);
 
             lv_img_set_angle(lvSecond, now_local->tm_sec * 6 * 10); 
             lv_img_set_angle(lvHour, now_local->tm_hour * 30 * 10);
             lv_img_set_angle(lvMinute, now_local->tm_min * 6 * 10);  
-
-        // if (actTime - prevTime > 10ms) {
-        //     prevTime = actTime;
-        //     hundreth += 10;
-        //     if (hundreth > 99) {
-        //         hundreth -= 100;
-        //         if(++seconds > 59) {
-        //             seconds = 0;
-        //         }
-        //     }
-            // lv_meter_set_indicator_value(meter, indic_hundreth, hundreth);
-            // lv_meter_set_indicator_value(meter, indic_seconds, seconds);
         }
     }
 }
