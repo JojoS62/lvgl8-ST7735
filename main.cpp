@@ -380,7 +380,7 @@ int main()
             tm *now_local = localtime(&now);
 
             lv_img_set_angle(lvSecond, now_local->tm_sec * 6 * 10); 
-            lv_img_set_angle(lvHour, now_local->tm_hour * 30 * 10);
+            lv_img_set_angle(lvHour, now_local->tm_hour * 30 * 10 + (now_local->tm_min  * 30 * 10) / 60);
             lv_img_set_angle(lvMinute, now_local->tm_min * 6 * 10);  
         }
     }
