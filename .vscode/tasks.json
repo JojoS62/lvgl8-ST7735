@@ -154,10 +154,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "build clean STM32F407VE_BLACK",
@@ -211,6 +208,55 @@
             "args": [
                 "--build",
                 "cmake_build/WEACT_F411CE/release/GCC_ARM",
+                "--clean-first"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "compile DEVEBOX_H743VI",
+            "command": "mbed-tools",
+            "args": [
+                "compile",
+                "-m",
+                "DEVEBOX_H743VI",
+                "-t",
+                "GCC_ARM",
+                "--mbed-os-path",
+                "../../mbed-os",
+                "--custom-targets-json",
+                "../../custom_targets/custom_targets.json",
+                "-b",
+                "debug"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build DEVEBOX_H743VI",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/DEVEBOX_H743VI/debug/GCC_ARM"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "build clean DEVEBOX_H743VI",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "cmake_build/DEVEBOX_H743VI/release/GCC_ARM",
                 "--clean-first"
             ],
             "problemMatcher": [
