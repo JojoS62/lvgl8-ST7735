@@ -41,6 +41,7 @@ if (${USE_SHARED_LIB_STRUCT})
         lvScreens/hour.c
         lvScreens/minute.c
         lvScreens/second.c
+        IRMP/irmp.c
     )
 
     target_include_directories(${APP_TARGET} 

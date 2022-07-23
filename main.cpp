@@ -7,19 +7,66 @@
 #include "lvgl.h"
 #include "LVGLDispDriver_GC9A01.h"
 #include "LVGLDispDriver_ST7735.h"
+#include "LVGLDispDriver_ILI9341.h"
+#include "LVGLInputDriverBase.h"
+
+#include "IRMP/irmp.h"
+
 #ifdef TARGET_STM32F407VE_BLACK
 #  include "TARGET_STM32F407VE_BLACK/LVGLDispDriverSTM32F407VE_BLACK.h"
+    PinName mosi = PA_7;
+    PinName sclk = PA_5;
+    PinName ssel = PA_4;
+    PinName pinCMD = PA_6;
+    PinName pinRST = PA_2;
+    PinName pinBacklight = PB_3;
+    DigitalOut csFlash(PA_15, 1);   // flash cs off
+#elif TARGET_DEVEBOX_H743VI
+    PinName mosi = PB_15;
+    PinName sclk = PB_13;
+    PinName ssel = PB_14;
+    PinName pinCMD = PB_1;
+    PinName pinRST = PB_12;
+    PinName pinBacklight = PB_0;
+#else
+    SPI spiDisplay(PA_7, NC, PA_5);
+    DigitalOut csFlash(PA_15, 1);   // flash cs off
 #endif
-#include "LVGLInputDriverBase.h"
+
+// cyclic interrupt for IRMP ISR worker
+Ticker irmpTicker;
+
+// only for performance test
+//Timer   timerPerfTest;
+int     timeISRMax = 0;
+float   timeISRAvg;
+int     timeISRAvgSum = 0;
+int     countISRCalls = 0;
+
+// this ISR must be called cyclic
+void irmpISR(void)
+{
+    //int t1 = timerPerfTest.read_us();               // read performance timer
+
+    irmp_ISR();                                     // call irmp ISR
+
+    int timeISR = 0; //timerPerfTest.read_us() - t1;     // calc time spent in worker ISR
+    if (timeISR > timeISRMax)                       // store maximum
+        timeISRMax = timeISR;
+    timeISRAvgSum += timeISR;                       // sum for avg
+    countISRCalls++;
+}
+
+
+SPI spiDisplay(mosi, NC, sclk);
+DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
+
 
 static BufferedSerial console(STDIO_UART_TX, STDIO_UART_RX, 115200);
 FileHandle *mbed::mbed_override_console(int) {
       return &console;
  }
   
-SPI spiDisplay(PA_7, NC, PA_5);
-DigitalOut led1(LED1, 0);   // onboard LED D2 1: off, 0: on
-DigitalOut csFlash(PA_15, 1);   // flash cs off
 
 uint32_t cur_time_h;
 uint32_t cur_time_m;
@@ -285,18 +332,29 @@ int main()
     printf("Hello from "  MBED_STRINGIFY(TARGET_NAME) "\n");
     printf("Mbed OS version: %d.%d.%d\n\n", MBED_MAJOR_VERSION, MBED_MINOR_VERSION, MBED_PATCH_VERSION);
 
-    spiDisplay.frequency(50'000'000);     // will be limited to some internal value
+    spiDisplay.frequency(120'000'000);     // will be limited to some internal value
 
     RealTimeClock rtc;
     rtc.init();
 
+    // irmp_data holds result of received IR code
+    IRMP_DATA irmp_data;
+
+    irmp_init();                                                            // initialize irmp
+    irmpTicker.attach(&irmpISR, 100us );                               // call ISR 10.000 / s
+
 #ifdef TARGET_STM32F407VE_BLACK
     [[maybe_unused]] LVGLDispDriver* lvglDisplay_main = LVGLDispDriver::get_target_default_instance();
     LVGLInputDriver::get_target_default_instance_touchdrv(lvglDisplay_main);
+
+    [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, ssel, pinCMD, pinRST, pinBacklight);
+#elif TARGET_DEVEBOX_H743VI
+    [[maybe_unused]] LVGLDispILI9341* lvglDisplay_2 = new LVGLDispILI9341(spiDisplay, ssel, pinCMD, pinRST, pinBacklight);
+    // [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, ssel, pinCMD, pinRST);
+    // DigitalOut backLight(pinBacklight, 1);
 #endif
-                                        //LVGLDispGC9A01(SPI &spi, PinName pinCS, PinName pinCMD, PinName pinRST, PinName pinBacklight
-    [[maybe_unused]] LVGLDispGC9A01* lvglDisplay_2 = new LVGLDispGC9A01(spiDisplay, PA_4, PA_6, PA_2, PA_3);
-    // [[maybe_unused]] LVGLDispST7735* lvglDisplay_2 = new LVGLDispST7735(spiDisplay, PB_9, PB_6, PB_7);
+
+
 
     lv_theme_t * th = lv_theme_default_init(lvglDisplay_2->getLVDisp(),  /*Use the DPI, size, etc from this display*/ 
                                             lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
@@ -310,6 +368,7 @@ int main()
     set_lv_common_styles();
 
     // create_lv_screen(lvglDisplay_main->getLVDisp());
+    //create_lv_screen(lvglDisplay_2->getLVDisp());
 
 #ifdef TARGET_STM32F407VE_BLACK
     lv_gaugescreen_param_t gauge_param {0};
@@ -327,11 +386,38 @@ int main()
     chrono::microseconds prevTime;
 
     t.start();
+    // int sec = 0;
 
     while(true) {
         lv_task_handler();
-        ThisThread::sleep_for(20ms);
-        led1 = !led1;
+        ThisThread::sleep_for(10ms);
+
+                // check for received IR commands
+        if (irmp_get_data (&irmp_data))
+        {
+            // ir signal decoded, do something here...
+            // irmp_data.protocol is the protocol, see irmp.h
+            // irmp_data.address is the address/manufacturer code of ir sender
+            // irmp_data.command is the command code
+            // irm_data.flags is press/release information
+            // irmp_protocol_names[irmp_data.protocol] is the protocol name (if enabled, see irmpconfig.h)
+            // printf("proto %d addr %d cmd %d\n", irmp_data.protocol, irmp_data.address, irmp_data.command );
+
+            // sample decoding, turn LED on / off
+            if (irmp_data.protocol == IRMP_RC5_PROTOCOL && irmp_data.address == 5)      // old RC5 VCR Remote. TV uses address 0
+            {
+                if (irmp_data.flags == 0)       // switch only on button press
+                {
+                    switch (irmp_data.command)
+                    {
+                    }
+                }
+            }
+
+            // log to stdout
+            printf("proto %d addr %d cmd %d flags %x name %s\n", irmp_data.protocol, irmp_data.address, irmp_data.command, irmp_data.flags, irmp_protocol_names[irmp_data.protocol] );
+        }
+
 
         if (console.readable()) {
             char ch;
@@ -379,9 +465,12 @@ int main()
             time_t now = rtc.to_time_t(rtc.now());
             tm *now_local = localtime(&now);
 
+            // lv_img_set_angle(lvSecond, newValue * 6 * 10); 
             lv_img_set_angle(lvSecond, now_local->tm_sec * 6 * 10); 
             lv_img_set_angle(lvHour, now_local->tm_hour * 30 * 10 + (now_local->tm_min  * 30 * 10) / 60);
             lv_img_set_angle(lvMinute, now_local->tm_min * 6 * 10);  
+
+            led1 = !led1;
         }
     }
 }
