@@ -35,15 +35,17 @@
             "type": "cortex-debug",
             "servertype": "stutil",
             "v1": false,
-            "showDevDebugOutput": true
+            "runToMain": true,
+            "showDevDebugOutput": false
         },
         {
             "cwd": "${workspaceRoot}",
-            "executable": "cmake_build/STM32F407VE_BLACK/debug/GCC_ARM/${workspaceFolderBasename}.elf",
+            "executable": "cmake_build/DEVEBOX_H743VI/debug/GCC_ARM/${workspaceFolderBasename}.elf",
             "name": "debug stlink",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "stlink",
+            "runToMain": true,
             "v1": false
         },
         {
@@ -57,7 +59,7 @@
         },
         {
             "cwd": "${workspaceRoot}",
-            "executable": "cmake_build/STM32F407VE_BLACK/release/GCC_ARM/${workspaceFolderBasename}.elf",
+            "executable": "cmake_build/DEVEBOX_H743VI/release/GCC_ARM/${workspaceFolderBasename}.elf",
             "name": "release stlink",
             "request": "launch",
             "type": "cortex-debug",

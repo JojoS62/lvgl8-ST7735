@@ -2,6 +2,11 @@
     "target_overrides": {
         "*": {
             "platform.stdio-baud-rate": 115200
+        },
+        "DEVEBOX_H743VI": {
+            "device_has_remove": [
+                "SLEEP"
+            ]
         }
     }
 }

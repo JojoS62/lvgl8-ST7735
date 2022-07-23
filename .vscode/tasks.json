@@ -234,10 +234,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "build DEVEBOX_H743VI",
@@ -249,7 +246,10 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build"
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "build clean DEVEBOX_H743VI",

@@ -25,7 +25,8 @@
 			"new": "cpp",
 			"ostream": "cpp",
 			"chrono": "cpp",
-			"ctime": "cpp"
+			"ctime": "cpp",
+			"ratio": "cpp"
 		},
 		"cortex-debug.registerUseNaturalFormat": true,
 		"cmake.autoSelectActiveFolder": false,
